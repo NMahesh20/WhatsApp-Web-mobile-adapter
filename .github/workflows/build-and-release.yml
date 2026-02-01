@@ -1,0 +1,101 @@
+name: Build and Release
+
+on:
+    push:
+        tags:
+            - "v*"
+    workflow_dispatch:
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: "18"
+
+            - name: Install dependencies
+              run: npm install terser
+
+            - name: Get version from tag or package.json
+              id: version
+              run: |
+                  if [[ "${{ github.ref }}" == refs/tags/* ]]; then
+                    VERSION=${GITHUB_REF#refs/tags/}
+                    VERSION=${VERSION#v}
+                  else
+                    VERSION=$(node -e "console.log(require('./package.json').version)")
+                  fi
+                  echo "version=$VERSION" >> $GITHUB_OUTPUT
+                  echo "Version: $VERSION"
+
+            - name: Update manifest.json with version
+              run: |
+                  VERSION=${{ steps.version.outputs.version }}
+                  echo "Updating manifest with version: $VERSION"
+                  node -e "
+                    const fs = require('fs');
+                    const manifest = JSON.parse(fs.readFileSync('manifest.json', 'utf8'));
+                    manifest.version = '$VERSION';
+                    fs.writeFileSync('manifest.json', JSON.stringify(manifest, null, 2));
+                    console.log('Updated manifest.json to version $VERSION');
+                  "
+
+            - name: Minify waa.js
+              run: |
+                  npx terser waa.js -o waa.min.js -c -m
+                  echo "Minified waa.js to waa.min.js"
+                  ls -lh waa.js waa.min.js
+
+            - name: Create extension artifact
+              run: |
+                  mkdir -p dist
+                  zip -r dist/whatsapp-web-adapter-${{ steps.version.outputs.version }}.xpi \
+                    manifest.json \
+                    waa.min.js \
+                    icons/ \
+                    -x "*.git*" "*.DS_Store" "*.md" "node_modules/*"
+                  echo "Created extension archive"
+                  ls -lh dist/
+
+            - name: Upload artifact
+              uses: actions/upload-artifact@v4
+              with:
+                  name: whatsapp-web-adapter-${{ steps.version.outputs.version }}
+                  path: dist/
+                  retention-days: 90
+
+            - name: Create Release
+              if: startsWith(github.ref, 'refs/tags/')
+              uses: softprops/action-gh-release@v1
+              with:
+                  files: dist/whatsapp-web-adapter-${{ steps.version.outputs.version }}.xpi
+                  body: |
+                      # WhatsApp Web Mobile Adapter v${{ steps.version.outputs.version }}
+
+                      This release includes:
+                      - Minified JavaScript for faster loading
+                      - Updated manifest with version ${{ steps.version.outputs.version }}
+                      - Ready-to-install .xpi extension file
+
+                      ## Installation
+                      1. Download the `.xpi` file
+                      2. Open Firefox on Android
+                      3. Navigate to `about:addons`
+                      4. Click the gear icon and select "Install Add-on From File"
+                      5. Select the downloaded `.xpi` file
+                  draft: false
+                  prerelease: false
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+            - name: Display artifact info
+              run: |
+                  echo "Build completed successfully!"
+                  echo "Version: ${{ steps.version.outputs.version }}"
+                  echo "Artifact location: dist/whatsapp-web-adapter-${{ steps.version.outputs.version }}.xpi"
