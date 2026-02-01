@@ -5,7 +5,8 @@
     "version": "1.0",
     "homepage_url": "https://github.com/NMahesh20/whatsapp-web-mobile-adapter",
     "icons": {
-        "48": "icons/wa-web.png"
+        "48": "icons/wa-web-48.png",
+        "96": "icons/wa-web-96.png"
     },
 
     "browser_specific_settings": {
