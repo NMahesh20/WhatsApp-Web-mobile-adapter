@@ -555,6 +555,7 @@ function initNavBtn() {
 }
 const webkitCallback = new WebkitCallback();
 function mainMutation() {
+    hideWABanner();
     const account = localStorage.getItem("last-wid-md");
     if (typeof account === "string" && account.trim().length > 0) {
         const auto = true;
@@ -1445,6 +1446,7 @@ function addBackBtn() {
                     clearHoverClassName();
                     webkitCallback.exitChatCallback(globalData.currentChatId);
                     globalData.currentChatId = "";
+                    hideWABanner();
                 },
                 false,
             );
@@ -1672,6 +1674,13 @@ function makePropertyWritable(objBase, objScopeName, propName, initValue) {
                 console.error(e2);
             }
         }
+    }
+}
+function hideWABanner() {
+    const grandParent = document.querySelector('[data-icon="wa-square-icon"]')
+        ?.parentElement?.parentElement;
+    if (grandParent) {
+        grandParent.style.display = "none";
     }
 }
 window.onload = function () {
