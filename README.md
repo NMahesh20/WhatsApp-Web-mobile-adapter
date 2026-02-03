@@ -1,5 +1,5 @@
 # WhatsApp Web Mobile Adapter
-WhatsApp web is not accessible in mobile. So, to enable it we have request the desktop site. But in desktop site, the UI isn't that well for a mobile.
+WhatsApp web is not accessible on mobile. So, to enable it, we have to request the desktop site. But on the desktop site, the UI isn't well-suited for mobile.
 This Firefox extension adapts WhatsApp Web for mobile by spoofing the device as a PC and applying mobile-friendly overrides.
 
 ## Installation for Test
@@ -11,16 +11,18 @@ This Firefox extension adapts WhatsApp Web for mobile by spoofing the device as 
 5. Select the extension ZIP file (you need to zip the folder).
 
 ## Directions to use this:
+URL: [WhatsApp Web Mobile Adapter](https://addons.mozilla.org/en-US/firefox/addon/wa-web-mobile-adapter/)
 ### On Android (Firefox browser)
 1. Install the browser and install this.
-2. Request the Desktop site for "web.whatsapp.com" and sign in.
+2. Visit "web.whatsapp.com" and sign in.
 3. Now the UI should be mobile-friendly.
 
-### On Iphone (Orion browser by Kagi)
+### On iPhone (Orion browser by Kagi)
 1. Install the browser and install this.
-2. Open Orion, go to Settings -> Privacy ->User Agent -> Custom and paste the below without any quotes
+2. Open Orion, go to Settings -> Privacy ->User Agent -> Custom, and paste the below without any quotes
 "_Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:148.0) Gecko/20100101 Firefox/148.0_"
-3. Now the UI should be mobile-friendly.
+3. Visit "web.whatsapp.com" and sign in.
+4. Now the UI should be mobile-friendly.
 
 **Note: WhatsApp will redirect to "web.whatsapp.com/mobile" if the "Desktop site" or the "User agent" was not changed, so make sure to go back to "web.whatsapp.com" after updating.**
 
@@ -33,7 +35,7 @@ This Firefox extension adapts WhatsApp Web for mobile by spoofing the device as 
 ## Files
 
 - `manifest.json`: Extension manifest.
-- `background.js`: Background script which intercept the request headers and change the user-agent to desktop version.
+- `background.js`: Background script which intercepts the request headers and changes the user-agent to the desktop version.
 - `waa.js`: Content script that injects spoofing and styles.
 - `icons/`: Icon files (48x48 and 96x96 PNGs needed).
 
@@ -49,4 +51,4 @@ Then install the .xpi file in Firefox via `about:addons` > Install Add-on From F
 
 ## Note
 
-The browser may inject the User Agent of its own, so workaround it to display the desktop site first and then continue.
+The browser may inject the User Agent of its own, so workaround it to display the desktop site first and then continue. This was seen on iPhone.
