@@ -9,7 +9,11 @@
         "96": "icons/wa-web-96.png"
     },
 
-    "permissions": ["webRequest", "webRequestBlocking", "webNavigation"],
+    "permissions": [
+        "webRequest",
+        "webRequestBlocking",
+        "https://web.whatsapp.com/*"
+    ],
 
     "browser_specific_settings": {
         "gecko": {
