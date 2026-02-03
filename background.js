@@ -20,7 +20,7 @@ function registerWebRequestListener() {
 
                 return { requestHeaders: headers };
             },
-            { urls: ["https://web.whatsapp.com/*"] },
+            { urls: ["*://web.whatsapp.com/*"] },
             ["blocking", "requestHeaders"],
         );
         // console.log(
