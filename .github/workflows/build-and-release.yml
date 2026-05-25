@@ -63,8 +63,8 @@ jobs:
                   path: dist/
                   retention-days: 90
             - name: Create release on GitHub
-              uses: softprops/action-gh-release@v2
+              uses: softprops/action-gh-release@v3
               with:
                   files: "*.xpi"
-              env:
-                  GITHUB_TOKEN: ${{ secrets.RELEASE_PAT }}
+              # env:
+              #     GITHUB_TOKEN: ${{ secrets.RELEASE_PAT }}
