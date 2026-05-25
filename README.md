@@ -1,4 +1,5 @@
 # WhatsApp Web Mobile Adapter
+
 WhatsApp web is not accessible on mobile. So, to enable it, we have to request the desktop site. But on the desktop site, the UI isn't well-suited for mobile.
 This Firefox extension adapts WhatsApp Web for mobile by spoofing the device as a PC and applying mobile-friendly overrides.
 
@@ -11,16 +12,20 @@ This Firefox extension adapts WhatsApp Web for mobile by spoofing the device as 
 5. Select the extension ZIP file (you need to zip the folder).
 
 ## Directions to use this:
+
 URL: [WhatsApp Web Mobile Adapter](https://addons.mozilla.org/en-US/firefox/addon/wa-web-mobile-adapter/)
+
 ### On Android (Firefox browser)
+
 1. Install the browser and install this.
 2. Visit "web.whatsapp.com" and sign in.
 3. Now the UI should be mobile-friendly.
 
 ### On iPhone (Orion browser by Kagi)
+
 1. Install the browser and install this.
 2. Open Orion, go to Settings -> Privacy ->User Agent -> Custom, and paste the below without any quotes
-"_Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:148.0) Gecko/20100101 Firefox/148.0_"
+   "_Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:148.0) Gecko/20100101 Firefox/148.0_"
 3. Visit "web.whatsapp.com" and sign in.
 4. Now the UI should be mobile-friendly.
 
@@ -51,4 +56,5 @@ Then install the .xpi file in Firefox via `about:addons` > Install Add-on From F
 
 ## Note
 
-The browser may inject the User Agent of its own, so workaround it to display the desktop site first and then continue. This was seen on iPhone.
+- The browser may inject the User Agent of its own, so workaround it to display the desktop site first and then continue. This was seen on iPhone.
+- The extenstion is prone to break as it relies on WhatsApp Web's UI elements. In such cases dont hesitate to raise an issue.
