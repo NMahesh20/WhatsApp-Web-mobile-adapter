@@ -540,6 +540,7 @@ function initNavBtn() {
 }
 const webkitCallback = new WebkitCallback();
 function mainMutation() {
+    hideWABanner();
     const t = localStorage.getItem("last-wid-md");
     if (typeof t == "string" && t.trim().length > 0) {
         const n = t.replace(/^"|"$/g, "").split(":")[0];
@@ -1249,6 +1250,7 @@ function addBackBtn() {
                                 globalData.currentChatId,
                             ),
                             (globalData.currentChatId = ""));
+                            hideWABanner();
                     },
                     !1,
                 ),
@@ -1524,3 +1526,10 @@ window.onload = function () {
         };
     }
 };
+function hideWABanner() {
+    const grandParent = document.querySelector('[data-icon="wa-square-icon"]')
+        ?.parentElement?.parentElement;
+    if (grandParent) {
+        grandParent.style.display = "none";
+    }
+}
