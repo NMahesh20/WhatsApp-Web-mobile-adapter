@@ -1250,7 +1250,7 @@ function addBackBtn() {
                                 globalData.currentChatId,
                             ),
                             (globalData.currentChatId = ""));
-                            hideWABanner();
+                        hideWABanner();
                     },
                     !1,
                 ),
@@ -1268,6 +1268,52 @@ function addBackBtn() {
         a && e(a);
     }
 }
+// The "Following" (channels) view has no back button of its own, so put one next
+// to its header title. It works exactly like the chat arrow above. Matched on the
+// full class list on purpose: WhatsApp's x... hashes are generic style classes
+// reused across components, so a shorter combination also matches the chat
+// header and drops a second arrow in there.
+function addFollowingBackBtn() {
+    const anchor = document.querySelector(
+        ".x78zum5.x6s0dn4.x1iyjqo2.x1r8uery.xeuugli.x101abm8.x1s73dr8.xbzw7fd",
+    );
+    const parent = anchor?.parentNode;
+    if (!parent || parent.querySelector("#followingBackBtn")) return;
+    const btn = document.createElement("div");
+    ((btn.innerHTML =
+        '<svg t="1658371755384" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2324" width="32" height="32"><path d="M671.968 912c-12.288 0-24.576-4.672-33.952-14.048L286.048 545.984c-18.752-18.72-18.752-49.12 0-67.872l351.968-352c18.752-18.752 49.12-18.752 67.872 0 18.752 18.72 18.752 49.12 0 67.872l-318.016 318.048 318.016 318.016c18.752 18.752 18.752 49.12 0 67.872C696.544 907.328 684.256 912 671.968 912z" p-id="2325" fill="#58656e"></path></svg>'),
+        (btn.id = "followingBackBtn"),
+        btn.setAttribute("role", "button"),
+        btn.setAttribute("aria-label", "Back"),
+        btn.addEventListener(
+            "click",
+            function () {
+                globalData.isMessageOpen = !1;
+                const n = document.querySelector(".two");
+                if (n) {
+                    n.className = n.className.replace("is-message-open", "");
+                }
+                (clearHoverClassName(),
+                    webkitCallback.exitChatCallback(globalData.currentChatId),
+                    (globalData.currentChatId = ""),
+                    hideWABanner());
+            },
+            !1,
+        ),
+        parent.insertBefore(btn, anchor),
+        (parent.style.display = "flex"),
+        (parent.style.alignItems = "center"),
+        (parent.style.columnGap = "8px"));
+}
+window.__followingBackBtnObserver ||
+    ((window.__followingBackBtnObserver = new MutationObserver(
+        addFollowingBackBtn,
+    )),
+    window.__followingBackBtnObserver.observe(document.body, {
+        childList: !0,
+        subtree: !0,
+    }),
+    addFollowingBackBtn());
 function addSearchBtnListener() {
     const t = document.querySelector('span[data-icon="search-alt"]');
     if (t) {
